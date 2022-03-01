@@ -1,0 +1,19 @@
+  div {
+     width: fit-content;
+     padding: 12px 24px;
+     margin: 10px auto 0;
+     border: 1px solid #555555;
+  }
+
+  button {
+     cursor: pointer;
+  }
+
+  #displayTime {
+     text-align: center;
+  }
+
+  h3 {
+     margin-top: 12vh;
+     text-align: center;
+  }

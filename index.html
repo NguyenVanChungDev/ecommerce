@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Ứng dụng xem lịch </title>
+     <link rel="stylesheet" href="./assets/css/index.css">
+
+</head>
+
+<body>
+
+     <header>
+          <nav>
+               <a href="/">Xem lịch</a>
+               <a href="./pages/clock.html">Đồng hồ bấm giờ</a>
+          </nav>
+     </header>
+
+
+     <div class="container">
+          <h3>Ứng dụng xem lịch </h3>
+          <div class="buttonControl">
+               <!-- Button Previous month -->
+               <button id="btnPrev"> Prev</button>
+
+               <!-- Button Next Month -->
+               <button id="btnNext">Next ></button>
+          </div>
+
+
+          <!-- Display Month and Year -->
+          <div class="infoCommon">
+               <div id="monthEle"></div>
+               <div id="yearEle"></div>
+          </div>
+
+          <!-- Detail date of Month -->
+          <div class="detail">
+               <div class="date">
+                    <div class="day-name">Sun</div>
+                    <div class="day-name">Mon</div>
+                    <div class="day-name">Tue</div>
+                    <div class="day-name">Wen</div>
+                    <div class="day-name">Thu</div>
+                    <div class="day-name">Fri</div>
+                    <div class="day-name">Sat</div>
+               </div>
+
+               <div id="dateEle" class="date">
+                    <div class="day"></div>
+                    <div class="day"></div>
+                    <div class="day">1</div>
+                    <div class="day">2</div>
+                    <div class="day">3</div>
+                    <div class="day">4</div>
+                    <div class="day">5</div>
+                    <div class="day">6</div>
+                    <div class="day">7</div>
+                    <div class="day">8</div>
+                    <div class="day">9</div>
+                    <div class="day">10</div>
+                    <div class="day">11</div>
+                    <div class="day">12</div>
+                    <div class="day">13</div>
+                    <div class="day">14</div>
+                    <div class="day active">15</div>
+                    <div class="day">16</div>
+                    <div class="day">17</div>
+                    <div class="day">18</div>
+                    <div class="day">19</div>
+                    <div class="day">20</div>
+                    <div class="day">21</div>
+                    <div class="day">22</div>
+                    <div class="day">23</div>
+                    <div class="day">24</div>
+                    <div class="day">25</div>
+                    <div class="day">26</div>
+                    <div class="day">27</div>
+                    <div class="day">28</div>
+                    <div class="day"></div>
+                    <div class="day"></div>
+                    <div class="day"></div>
+               </div>
+          </div>
+
+     </div>
+
+     <!-- Javascript -->
+     <script>
+          let monthEle = document.getElementById('monthEle')
+          let yearEle = document.getElementById('yearEle')
+          let dateEle = document.getElementById('dateEle')
+          let btnNext = document.getElementById('btnNext')
+          let btnPrev = document.getElementById('btnPrev')
+
+          let currentYear = new Date().getFullYear();
+          let currentMonth = new Date().getMonth(); // 1
+
+          // Transfer from month to string month (0-11) ==> (Jan, Mar...)
+          function displayNameOfMonth() {
+               // DisplayMonth
+               let currentMonthName = new Date(currentYear, currentMonth).toLocaleString('en-us', {
+                    month: 'long'
+               })
+               monthEle.innerText = currentMonthName
+
+               // Display Year
+               yearEle.innerText = currentYear;
+
+               // Display date
+               renderDate()
+          }
+
+
+          // Get all days in month - Lấy tất cả các ngày của tháng
+          function getDayInMonth() {
+               return new Date(currentYear, currentMonth + 1, 0).getDate();
+          }
+
+          // Get start day of Month (Day() => 0(Su), 1,... 6(T7)) - Lấy ngày bắt đầu của tháng
+          function getDayStartOfMonth() {
+               return new Date(currentYear, currentMonth, 1).getDay()
+          }
+
+          // Active day today - Làm nổi bật ngày hiện tại
+          function activeTodayDay(day) {
+               let day1 = new Date().toDateString();
+               let day2 = new Date(currentYear, currentMonth, day).toDateString();
+               return day1 == day2 ? 'active' : '';
+          }
+
+          // Hiển thị ngày trong tháng lên giao diện người dùng
+          function renderDate() {
+               let daysInMonth = getDayInMonth()
+               let dayStart = getDayStartOfMonth()
+               dateEle.innerHTML = '';
+
+               for (let i = 0; i < dayStart; i++) {
+                    dateEle.innerHTML += `
+                         <div class='day'></div>
+                    `
+               }
+
+               for (let i = 0; i < daysInMonth; i++) {
+                    dateEle.innerHTML += `
+                    <div class="day ${activeTodayDay(i+1)}">${i+1}</div>
+               `;
+               }
+          }
+
+          // When click Next Month
+          btnNext.onclick = function () {
+               if (currentMonth == 11) {
+                    currentMonth = 0;
+                    currentYear++
+               } else {
+                    currentMonth++
+               }
+               displayNameOfMonth()
+          }
+
+          // When click Prev Month
+          btnPrev.onclick = () => {
+               if (currentMonth == 0) {
+                    currentMonth = 11
+                    currentYear--
+               } else {
+                    currentMonth--
+               }
+               displayNameOfMonth()
+          }
+          window.onload = displayNameOfMonth(); //When page onload will exe this function
+     </script>
+</body>
+
+</html>
